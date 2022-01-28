@@ -23,6 +23,10 @@ var riverState = RiverState{
 }
 
 func main() {
+
+	PrintState(&riverState)
+	TestViewState(&testing.T{}, &riverState)
+
 	// moves from west
 	MoveToBoat(&riverState, riverState.west[0], riverState.west[3])
 
@@ -172,7 +176,15 @@ func PrintStateTicket(r *RiverState) {
 	println("----------------------------------")
 }
 
-//
+func ViewState(r *RiverState) string {
+	graphicState := fmt.Sprintf(
+		"[_%s_%s_%s_%s___W~~~~~~~~~~~~\\__%s___/%s|__/~~~~~~~~~~~~~~~E___%s_%s_%s_%s_]\n\n",
+		r.west[0], r.west[1], r.west[2], r.west[3],
+		r.boat[0], r.boat[1],
+		r.east[0], r.east[1], r.east[2], r.east[3],
+	)
+	return graphicState
+}
 
 //
 
@@ -180,16 +192,49 @@ func PrintStateTicket(r *RiverState) {
 
 //
 
-func TestViewState(t *testing.T) {
-	wanted := "[kylling rev korn mann ---\\\\__/ _________________/---]" // weird thing where double \\ is converted to single \
-	state := ViewState(wanted)
+//
 
-	fmt.Println(state == wanted)
+func TestViewState(t *testing.T, r *RiverState) {
+	wantedState := RiverState{
+		west: West{0: "kylling", 1: "rev", 2: "korn", 3: "mann"},
+		boat: Boat{0: "", 1: ""},
+		east: East{0: "", 1: "", 2: "", 3: ""},
+	}
+
+	currentState := r
+
+	// checks if river state is similar
+	fmt.Println(currentState == &wantedState)
+
+	// checks if values in states match
+	for i := 0; i < len(currentState.west); i++ {
+		if currentState.west[i] != wantedState.west[i] {
+			println("State West not same at index: ", i)
+			panic("States not same")
+		}
+	}
+	for i := 0; i < len(currentState.boat); i++ {
+		if currentState.boat[i] != wantedState.boat[i] {
+			println("States Boat same at index: ", i)
+			panic("States not same")
+		}
+	}
+	for i := 0; i < len(currentState.east); i++ {
+		if currentState.east[i] != wantedState.east[i] {
+			println("States East not same at index: ", i)
+			panic("States not same")
+		}
+	}
+
+	wantedGraphic := "[_kylling_rev_korn_mann___W~~~~~~~~~~~~\\_____/|__/~~~~~~~~~~~~~~~E_______]"
+
+	currenGraphic := ViewState(currentState)
+
 	// Checks if state is wanted
-	if state != wanted {
-		t.Errorf("Feil, fikk %q, ønsket %q.", state, wanted)
+	if currenGraphic != wantedGraphic {
+		t.Errorf("Feil, fikk %q, ønsket %q.", currenGraphic, wantedGraphic)
 	} else {
-		fmt.Println(state)
+		fmt.Println(currenGraphic)
 	}
 }
 
@@ -241,10 +286,4 @@ func MoveBoat(currentState string) string {
 	// returns final state boat is in
 	endState := currentState
 	return endState
-}
-
-func ViewState(startState string) string {
-	// returns new state for viewing
-	newState := MoveBoat(startState)
-	return newState
 }
