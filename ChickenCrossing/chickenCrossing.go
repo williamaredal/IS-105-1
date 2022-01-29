@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"testing"
 	"time"
 )
 
@@ -22,10 +21,18 @@ var riverState = RiverState{
 	east: East{0: "", 1: "", 2: "", 3: ""},
 }
 
+/*
+make test that check if the end riverState is desired, where all animals are at the east side.
+	this test should contain all existing functions for completing the river crossing riddle
+make test that check if west and east contain "rev" and "kylling" or "kylling" and "korn" without "mann" at different stages.
+	if this is the case, a test result of "failed" or equal should be returned, as one of the animals or "korn" is eaten.
+make test that checks if the  graphic representation of a function produces the desired output
+make tests that displays different criterion, for example "pass", "fail" or "skipped"
+*/
+
 func main() {
 
 	PrintState(&riverState)
-	TestViewState(&testing.T{}, &riverState)
 
 	// moves from west
 	MoveToBoat(&riverState, riverState.west[0], riverState.west[3])
@@ -86,13 +93,13 @@ func MoveToBoat(r *RiverState, cargo string, captain string) {
 		println("\nPut ", cargo, " in boat with ", captain)
 		println("cargo  : ", r.boat[0])
 		println("captain: ", r.boat[1])
+		PrintState(r)
 
 		time.Sleep(1 * time.Second)
 	} else {
 		println("Boat is full")
 	}
 	// prints current state
-	PrintState(r)
 }
 
 func UnloadEast(r *RiverState, place1 int, place2 int) {
@@ -112,6 +119,7 @@ func UnloadEast(r *RiverState, place1 int, place2 int) {
 		println("\nUnloaded ", cargo, " and ", captain, " from boat in East")
 		println("cargo  : ", r.boat[0])
 		println("captain: ", r.boat[1])
+		PrintState(r)
 
 		time.Sleep(1 * time.Second)
 
@@ -119,7 +127,6 @@ func UnloadEast(r *RiverState, place1 int, place2 int) {
 		println("Boat is missing cargo or captain")
 	}
 	// prints current state
-	PrintState(r)
 }
 
 func UnloadWest(r *RiverState, place1 int, place2 int) {
@@ -139,13 +146,13 @@ func UnloadWest(r *RiverState, place1 int, place2 int) {
 		println("\nUnloaded ", cargo, " and ", captain, " from boat in West")
 		println("cargo  : ", r.boat[0])
 		println("captain: ", r.boat[1])
+		PrintState(r)
 
 		time.Sleep(1 * time.Second)
 	} else {
 		println("Boat is missing cargo or captain")
 	}
 	// prints current state
-	PrintState(r)
 }
 
 func PrintState(r *RiverState) {
@@ -193,50 +200,6 @@ func ViewState(r *RiverState) string {
 //
 
 //
-
-func TestViewState(t *testing.T, r *RiverState) {
-	wantedState := RiverState{
-		west: West{0: "kylling", 1: "rev", 2: "korn", 3: "mann"},
-		boat: Boat{0: "", 1: ""},
-		east: East{0: "", 1: "", 2: "", 3: ""},
-	}
-
-	currentState := r
-
-	// checks if river state is similar
-	fmt.Println(currentState == &wantedState)
-
-	// checks if values in states match
-	for i := 0; i < len(currentState.west); i++ {
-		if currentState.west[i] != wantedState.west[i] {
-			println("State West not same at index: ", i)
-			panic("States not same")
-		}
-	}
-	for i := 0; i < len(currentState.boat); i++ {
-		if currentState.boat[i] != wantedState.boat[i] {
-			println("States Boat same at index: ", i)
-			panic("States not same")
-		}
-	}
-	for i := 0; i < len(currentState.east); i++ {
-		if currentState.east[i] != wantedState.east[i] {
-			println("States East not same at index: ", i)
-			panic("States not same")
-		}
-	}
-
-	wantedGraphic := "[_kylling_rev_korn_mann___W~~~~~~~~~~~~\\_____/|__/~~~~~~~~~~~~~~~E_______]"
-
-	currenGraphic := ViewState(currentState)
-
-	// Checks if state is wanted
-	if currenGraphic != wantedGraphic {
-		t.Errorf("Feil, fikk %q, ønsket %q.", currenGraphic, wantedGraphic)
-	} else {
-		fmt.Println(currenGraphic)
-	}
-}
 
 // function that animates boat moving to other shore
 /**
