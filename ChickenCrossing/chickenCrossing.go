@@ -21,15 +21,6 @@ var riverState = RiverState{
 	east: East{0: "", 1: "", 2: "", 3: ""},
 }
 
-/*
-make test that check if the end riverState is desired, where all animals are at the east side.
-	this test should contain all existing functions for completing the river crossing riddle
-make test that check if west and east contain "rev" and "kylling" or "kylling" and "korn" without "mann" at different stages.
-	if this is the case, a test result of "failed" or equal should be returned, as one of the animals or "korn" is eaten.
-make test that checks if the  graphic representation of a function produces the desired output
-make tests that displays different criterion, for example "pass", "fail" or "skipped"
-*/
-
 func main() {
 
 	PrintState(&riverState)
