@@ -10,7 +10,7 @@ func TestServer(t *testing.T) {
 	listener, err := net.Listen("tcp", ":8080")
 
 	if err != nil {
-		panic("Listener error!")
+		t.Fatal(err)
 	}
 	fmt.Println(listener.Addr())
 
@@ -18,7 +18,7 @@ func TestServer(t *testing.T) {
 		conn, err := listener.Accept()
 
 		if err != nil {
-			panic("Connection error!")
+			t.Fatal(err)
 		}
 		conn.Write([]byte("Hei\n"))
 		fmt.Println("Message sent")
