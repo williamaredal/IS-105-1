@@ -24,46 +24,71 @@ var riverState = RiverState{
 func main() {
 
 	PrintState(&riverState)
+	fmt.Print("\033[H\033[2J")
+	time.Sleep(5000)
 
 	// moves from west
 	MoveToBoat(&riverState, riverState.west[0], riverState.west[3])
+	fmt.Print("\033[H\033[2J")
+	time.Sleep(5000)
 
 	// to east
 	UnloadEast(&riverState, 0, 3)
+	fmt.Print("\033[H\033[2J")
+	time.Sleep(5000)
 
 	// then loads with no cargo and captain. then moves to west
 	MoveToBoat(&riverState, riverState.boat[0], riverState.east[3])
+	fmt.Print("\033[H\033[2J")
+	time.Sleep(5000)
 
 	// unloads no cargo to west side
 
 	// then loads rev as cargo from west keeping captain
 	MoveToBoat(&riverState, riverState.west[1], riverState.boat[1])
+	fmt.Print("\033[H\033[2J")
+	time.Sleep(5000)
 
 	// to east
 	UnloadEast(&riverState, 1, 3) //
+	fmt.Print("\033[H\033[2J")
+	time.Sleep(5000)
 
 	// loads kylling as cargo and mann as captain from east
 	MoveToBoat(&riverState, riverState.east[0], riverState.east[3])
+	fmt.Print("\033[H\033[2J")
+	time.Sleep(5000)
 
 	// to west
 
 	// unloads kylling and mann, before loading korn as cargo and mann as captain from west
 	UnloadWest(&riverState, 0, 3)
+	fmt.Print("\033[H\033[2J")
+	time.Sleep(5000)
 
 	MoveToBoat(&riverState, riverState.west[2], riverState.west[3])
+	fmt.Print("\033[H\033[2J")
+	time.Sleep(5000)
 
 	// then unloads on east side, before the mann captains with no cargo
 	UnloadEast(&riverState, 2, 3)
+	fmt.Print("\033[H\033[2J")
+	time.Sleep(5000)
 
 	MoveToBoat(&riverState, riverState.east[0], riverState.east[3])
+	fmt.Print("\033[H\033[2J")
+	time.Sleep(5000)
 
 	// then loads chicken as cargo from west, while keeping captain on boat
 	MoveToBoat(&riverState, riverState.west[0], riverState.boat[1])
+	fmt.Print("\033[H\033[2J")
+	time.Sleep(5000)
 
 	// goes to east
 
 	// then unloads chicken and man on east side
 	UnloadEast(&riverState, 0, 3)
+	time.Sleep(5000)
 
 }
 
